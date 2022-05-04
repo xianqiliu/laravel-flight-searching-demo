@@ -7017,6 +7017,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -7027,8 +7032,16 @@ __webpack_require__.r(__webpack_exports__);
         returnDate: ""
       },
       rules: {},
-      offers: []
+      offers: [],
+      displayOffers: [],
+      page: 1,
+      pageSize: 10
     };
+  },
+  computed: {
+    pagedOffers: function pagedOffers() {
+      return this.offers.slice(this.pageSize * this.page - this.pageSize, this.pageSize * this.page);
+    }
   },
   methods: {
     onSubmit: function onSubmit(form) {
@@ -7039,9 +7052,13 @@ __webpack_require__.r(__webpack_exports__);
       this.offers = [];
       axios.get('/api/flight-offers?' + 'originLocationCode=' + this.form.departure + '&destinationLocationCode=' + this.form.arrival + '&departureDate=' + this.form.departureDate + '&returnDate=' + this.form.returnDate + '&adult=1').then(function (response) {
         console.log(response.data);
-        _this.offers = response.data.data;
+        _this.offers = response.data.data; //this.displayOffers = this.offers.slice(0, 10);
+
         console.log("closing");
       });
+    },
+    setPage: function setPage(val) {
+      this.page = val; //this.displayOffers = this.offers.slice(this.pageSize * this.page - this.pageSize, this.pageSize * this.page)
     }
   }
 });
@@ -113969,7 +113986,7 @@ var render = function () {
           },
           [
             _vm._v(
-              "\n            Built by using Amadeus-PHP-SDK with Laravel + Vue.js\n        "
+              "\n            A happy coding demo :) - Built by using Amadeus-PHP-SDK with Laravel + Vue.js\n        "
             ),
           ]
         ),
@@ -114094,9 +114111,12 @@ var render = function () {
       [
         _c("h3", [_vm._v("Results")]),
         _vm._v(" "),
-        _c("br"),
+        _c("el-pagination", {
+          attrs: { layout: "prev, pager, next", total: this.offers.length },
+          on: { "current-change": _vm.setPage },
+        }),
         _vm._v(" "),
-        _vm._l(_vm.offers, function (offer) {
+        _vm._l(_vm.pagedOffers, function (offer) {
           return _c("div", { key: offer.id }, [
             _c("div", { staticClass: "thumbnail" }, [
               _c("div", { staticClass: "caption" }, [

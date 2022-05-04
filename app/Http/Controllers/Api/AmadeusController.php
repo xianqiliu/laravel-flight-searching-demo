@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AmadeusDestinationResource;
 use App\Http\Resources\AmadeusFlightOfferResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AmadeusController extends Controller
 {
@@ -20,27 +19,34 @@ class AmadeusController extends Controller
     public function __construct()
     {
         $this->client
-            = Amadeus::builder("mUILmLsDW8L3N2ewWJcYqlPrwAmvzAJc", "l1DXxkVb3IOMQaN1")->build();
+            = Amadeus::builder(env('AMADEUS_CLIENT_ID'), env('AMADEUS_CLIENT_SECRET'))->build();
     }
 
     /**
      * @throws ResponseException
      */
-    public function getDirectDestinations(Request $request): AnonymousResourceCollection
+    public function getDirectDestinations(Request $request): array
     {
+        error_log("hello!");
+
         $destinations = $this->client->airport->directDestinations->get(
             array(
                 "departureAirportCode" => $request->{'departureAirportCode'},
                 "max" => $request->{'max'}
             )
         );
-        return AmadeusDestinationResource::collection($destinations);
+
+        return [
+            "meta" => $destinations[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
+            "data" => AmadeusDestinationResource::collection($destinations)
+        ];
+
     }
 
     /**
      * @throws ResponseException
      */
-    public function getFlightOffers(Request $request): AnonymousResourceCollection
+    public function getFlightOffers(Request $request): array
     {
         $flightOffers = $this->client->shopping->flightOffers->get(
             array(
@@ -52,6 +58,9 @@ class AmadeusController extends Controller
             )
         );
 
-        return AmadeusFlightOfferResource::collection($flightOffers);
+        return [
+            "meta" => $flightOffers[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
+            "data" => AmadeusFlightOfferResource::collection($flightOffers)
+        ];
     }
 }

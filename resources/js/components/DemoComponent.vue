@@ -4,7 +4,7 @@
         <div class="col-md-4 column">
             <h3>Flight Offers Search Engine</h3>
             <p style="font-size:12px; font-style:italic; color:#999999;">
-                Built by using Amadeus-PHP-SDK with Laravel + Vue.js
+                A happy coding demo :) - Built by using Amadeus-PHP-SDK with Laravel + Vue.js
             </p>
             <br /> <br />
             <el-form ref="form" :model="form" label-width="100px">
@@ -39,8 +39,13 @@
         <div class="col-md-1 column"> </div>
 
         <div class="col-md-7 column">
-            <h3>Results</h3> <br />
-            <div v-for="offer in offers" :key="offer.id">
+            <h3>Results</h3>
+            <el-pagination
+                layout="prev, pager, next"
+                :total="this.offers.length"
+                @current-change="setPage">
+            </el-pagination>
+            <div v-for="offer in pagedOffers" :key="offer.id">
                 <div class="thumbnail">
                     <div class="caption">
                         <div class="col-md-6">
@@ -92,8 +97,16 @@
                 },
                 rules: {
                 },
-                offers: []
+                offers: [],
+                displayOffers: [],
+                page: 1,
+                pageSize: 10
             };
+        },
+        computed: {
+            pagedOffers() {
+                return this.offers.slice(this.pageSize * this.page - this.pageSize, this.pageSize * this.page)
+            }
         },
         methods: {
             onSubmit(form) {
@@ -108,11 +121,16 @@
                     '&returnDate=' + this.form.returnDate +
                     '&adult=1'
                 ).then((response) => {
-                    console.log(response.data)
-                    this.offers = response.data.data
+                    console.log(response.data);
+                    this.offers = response.data.data;
+                    //this.displayOffers = this.offers.slice(0, 10);
                     console.log("closing");
                 });
             },
+            setPage (val) {
+                this.page = val;
+                //this.displayOffers = this.offers.slice(this.pageSize * this.page - this.pageSize, this.pageSize * this.page)
+            }
         }
     }
 </script>
