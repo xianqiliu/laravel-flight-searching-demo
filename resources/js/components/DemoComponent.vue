@@ -4,7 +4,7 @@
         <div class="col-md-4 column">
             <h3>Flight Offers Search Engine</h3>
             <p style="font-size:12px; font-style:italic; color:#999999;">
-                A happy coding demo :) - Built by using Amadeus-PHP-SDK with Laravel + Vue.js
+                A happy coding demo :) - Built by using Amadeus-PHP-SDK with Laravel + Vue.js .
             </p>
             <br /> <br />
             <el-form ref="form" :model="form" label-width="100px">

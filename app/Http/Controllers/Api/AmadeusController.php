@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
-require_once 'C:\wamp64\www\laravel-flight-searching-demo\vendor\autoload.php';
+require_once __DIR__ . '/../../../../vendor/autoload.php';
+//require_once 'C:\wamp64\www\laravel-flight-searching-demo\vendor\autoload.php';
 
 use Amadeus\Amadeus;
 use Amadeus\Exceptions\ResponseException;
@@ -27,8 +27,6 @@ class AmadeusController extends Controller
      */
     public function getDirectDestinations(Request $request): array
     {
-        error_log("hello!");
-
         $destinations = $this->client->airport->directDestinations->get(
             array(
                 "departureAirportCode" => $request->{'departureAirportCode'},
