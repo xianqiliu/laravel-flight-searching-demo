@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AmadeusDestinationResource;
 use App\Http\Resources\AmadeusFlightOfferResource;
 use Illuminate\Http\Request;
+use Monolog\Logger;
 
 class AmadeusController extends Controller
 {
@@ -18,8 +19,8 @@ class AmadeusController extends Controller
 
     public function __construct()
     {
-        $this->client
-            = Amadeus::builder(env('AMADEUS_CLIENT_ID'), env('AMADEUS_CLIENT_SECRET'))->build();
+        $this->client = Amadeus::builder(env('AMADEUS_CLIENT_ID'),env('AMADEUS_CLIENT_SECRET'))->build();
+        $this->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
     }
 
     /**
