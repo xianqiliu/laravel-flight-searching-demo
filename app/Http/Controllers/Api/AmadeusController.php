@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 //require_once __DIR__ . '/../../../../vendor/autoload.php';
-//require_once 'C:\wamp64\www\laravel-flight-searching-demo\vendor\autoload.php';
 
 use Amadeus\Amadeus;
 use App\Http\Controllers\Controller;
@@ -21,6 +20,7 @@ class AmadeusController extends Controller
     public function __construct(Amadeus $amadeus)
     {
         $this->amadeus = $amadeus;
+        $this->amadeus->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
 
         $this->amadeus->getAccessToken()->setAccessToken(cache('token'));
         $this->amadeus->getAccessToken()->setExpiresAt(cache('expires_at'));
@@ -29,7 +29,6 @@ class AmadeusController extends Controller
         $this->expiresAt = $this->amadeus->getAccessToken()->getExpiresAt();
 
         $this->cacheToken();
-
     }
 
     /**
@@ -42,4 +41,3 @@ class AmadeusController extends Controller
     }
 }
 
-//        $this->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');

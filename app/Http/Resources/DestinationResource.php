@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-class AmadeusDestinationResource extends JsonResource
+class DestinationResource extends AmadeusResource
 {
+    // Custom Function
 //    /**
 //     * Transform the resource into an array.
 //     *
@@ -25,15 +26,4 @@ class AmadeusDestinationResource extends JsonResource
 //            'response' => $this->getResponse()->getResult()
 //        ];
 //    }
-
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array|Arrayable|JsonSerializable
-     */
-    public function toArray($request)
-    {
-        return parent::toArray($request);
-    }
 }

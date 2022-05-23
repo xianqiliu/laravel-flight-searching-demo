@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Amadeus\Exceptions\ResponseException;
-use App\Http\Resources\AmadeusFlightOfferResource;
+use App\Http\Resources\FlightOfferResource;
 use Illuminate\Http\Request;
 
-class FlightOfferController extends AmadeusController
+class FlightOffersController extends AmadeusController
 {
     /**
      * @throws ResponseException
@@ -25,7 +25,7 @@ class FlightOfferController extends AmadeusController
 
         return [
             "meta" => $flightOffers[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
-            "data" => AmadeusFlightOfferResource::collection($flightOffers)
+            "data" => FlightOfferResource::collection($flightOffers)
         ];
     }
 }

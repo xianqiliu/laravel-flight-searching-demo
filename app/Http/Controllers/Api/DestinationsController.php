@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Amadeus\Exceptions\ResponseException;
-use App\Http\Resources\AmadeusDestinationResource;
+use App\Http\Resources\DestinationResource;
 use Illuminate\Http\Request;
 
-class DestinationController extends AmadeusController
+class DestinationsController extends AmadeusController
 {
     /**
      * @throws ResponseException
@@ -22,7 +22,7 @@ class DestinationController extends AmadeusController
 
         return [
             "meta" => $destinations[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
-            "data" => AmadeusDestinationResource::collection($destinations)
+            "data" => DestinationResource::collection($destinations)
         ];
     }
 }
