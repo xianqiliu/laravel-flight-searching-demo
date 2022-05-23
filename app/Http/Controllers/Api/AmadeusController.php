@@ -1,65 +1,45 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
-require_once __DIR__ . '/../../../../vendor/autoload.php';
+//require_once __DIR__ . '/../../../../vendor/autoload.php';
 //require_once 'C:\wamp64\www\laravel-flight-searching-demo\vendor\autoload.php';
 
 use Amadeus\Amadeus;
-use Amadeus\Exceptions\ResponseException;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AmadeusDestinationResource;
-use App\Http\Resources\AmadeusFlightOfferResource;
-use Illuminate\Http\Request;
-use Monolog\Logger;
+use Exception;
 
 class AmadeusController extends Controller
 {
-
-    private Amadeus $client;
-
-    public function __construct()
-    {
-        $this->client = Amadeus::builder(env('AMADEUS_CLIENT_ID'),env('AMADEUS_CLIENT_SECRET'))->build();
-        $this->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
-    }
+    protected Amadeus $amadeus;
+    private ?string $token = null;
+    private ?int $expiresAt = null;
 
     /**
-     * @throws ResponseException
+     * @throws Exception
      */
-    public function getDirectDestinations(Request $request): array
+    public function __construct(Amadeus $amadeus)
     {
-        $destinations = $this->client->airport->directDestinations->get(
-            array(
-                "departureAirportCode" => $request->{'departureAirportCode'},
-                "max" => $request->{'max'}
-            )
-        );
+        $this->amadeus = $amadeus;
 
-        return [
-            "meta" => $destinations[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
-            "data" => AmadeusDestinationResource::collection($destinations)
-        ];
+        $this->amadeus->getAccessToken()->setAccessToken(cache('token'));
+        $this->amadeus->getAccessToken()->setExpiresAt(cache('expires_at'));
+
+        $this->token = $this->amadeus->getAccessToken()->getBearerToken();
+        $this->expiresAt = $this->amadeus->getAccessToken()->getExpiresAt();
+
+        $this->cacheToken();
 
     }
 
     /**
-     * @throws ResponseException
+     * @throws Exception
      */
-    public function getFlightOffers(Request $request): array
+    private function cacheToken()
     {
-        $flightOffers = $this->client->shopping->flightOffers->get(
-            array(
-                "originLocationCode" => $request->{'originLocationCode'},
-                "destinationLocationCode" => $request->{'destinationLocationCode'},
-                "departureDate" => $request->{'departureDate'},
-                "returnDate" => $request->{'returnDate'},
-                "adults" => "1"
-            )
-        );
-
-        return [
-            "meta" => $flightOffers[0]->getResponse()->getBodyAsJsonObject()->{'meta'},
-            "data" => AmadeusFlightOfferResource::collection($flightOffers)
-        ];
+        cache(['token' => $this->token]);
+        cache(['expires_at' => $this->expiresAt]);
     }
 }
+
+//        $this->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');

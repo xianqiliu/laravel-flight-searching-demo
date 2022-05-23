@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Amadeus\Amadeus;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->singleton(Amadeus::class, function($app) {
+            return Amadeus::builder(env('AMADEUS_CLIENT_ID'),env('AMADEUS_CLIENT_SECRET'))->build();
+        });
     }
 
     /**
