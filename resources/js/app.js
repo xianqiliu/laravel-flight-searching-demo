@@ -41,6 +41,7 @@ Vue.filter('durationFormatter', function(value) {
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('demo-component', require('./components/DemoComponent.vue').default);
+Vue.component('pagination-component', require('./components/PaginationComponent').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\DestinationsController;
 use App\Http\Controllers\Api\FlightOffersController;
+use App\Http\Controllers\Api\LocationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('direct-destinations', [DestinationsController::class, 'getDirectDestinations']);
 Route::get('flight-offers', [FlightOffersController::class, 'getFlightOffers']);
+Route::get('locations', [LocationsController::class, 'getLocations']);
