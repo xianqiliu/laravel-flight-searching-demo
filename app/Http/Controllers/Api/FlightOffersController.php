@@ -13,7 +13,7 @@ class FlightOffersController extends AmadeusController
      */
     public function getFlightOffers(Request $request): array
     {
-        $flightOffers = $this->amadeus->shopping->flightOffers->get(
+        $flightOffers = $this->amadeus->getShopping()->getFlightOffers()->get(
             array(
                 "originLocationCode" => $request->{'originLocationCode'},
                 "destinationLocationCode" => $request->{'destinationLocationCode'},

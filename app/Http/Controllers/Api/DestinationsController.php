@@ -13,7 +13,7 @@ class DestinationsController extends AmadeusController
      */
     public function getDirectDestinations(Request $request): array
     {
-        $destinations = $this->amadeus->airport->directDestinations->get(
+        $destinations = $this->amadeus->getAirport()->getDirectDestinations()->get(
             array(
                 "departureAirportCode" => $request->{'departureAirportCode'},
                 "max" => $request->{'max'}

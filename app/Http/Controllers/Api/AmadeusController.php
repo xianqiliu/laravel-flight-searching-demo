@@ -11,8 +11,7 @@ use Exception;
 class AmadeusController extends Controller
 {
     protected Amadeus $amadeus;
-    private ?string $bearerToken = null;
-    private ?int $expiresAt = null;
+    private ?string $bearerToken;
 
     /**
      * @throws Exception
@@ -20,15 +19,18 @@ class AmadeusController extends Controller
     public function __construct()
     {
         $this->amadeus = app(Amadeus::class);
-        $this->amadeus->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
+        $this->amadeus->getClient()->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
 
-        $this->amadeus->client->getAccessToken()->setBearerToken(cache('bearer_token'));
-        $this->amadeus->client->getAccessToken()->setExpiresAt(cache('expires_at'));
+        $this->bearerToken = cache('bearer_token');
+        if ($this->bearerToken) {
+            $this->amadeus->getClient()->getAccessToken()->setBearerToken($this->bearerToken);
+        } else {
+            $this->bearerToken = $this->amadeus->getClient()->getAccessToken()->getBearerToken();
+            $this->amadeus->getClient()->getAccessToken()->setBearerToken($this->bearerToken);
+            $this->cacheToken();
+        }
 
-        $this->bearerToken = $this->amadeus->client->getAccessToken()->getBearerToken();
-        $this->expiresAt = $this->amadeus->client->getAccessToken()->getExpiresAt();
-
-        $this->cacheToken();
+        //var_dump($this->bearerToken);
     }
 
     /**
@@ -36,8 +38,7 @@ class AmadeusController extends Controller
      */
     private function cacheToken()
     {
-        cache(['bearer_token' => $this->bearerToken]);
-        cache(['expires_at' => $this->expiresAt]);
+        cache(['bearer_token' => $this->bearerToken], now()->addSeconds(1799));
     }
 }
 

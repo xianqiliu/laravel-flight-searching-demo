@@ -17,7 +17,7 @@ class LocationsController extends AmadeusController
         $baseLink = "/api/locations?subType=CITY&keyword=PAR&page[offset]=";
         $pageLimit = 7;
 
-        $locations = $this->amadeus->referenceData->locations->get(
+        $locations = $this->amadeus->getReferenceData()->getLocations()->get(
             array(
                 "subType" => $request['subType'],
                 "keyword" => $request['keyword'],
