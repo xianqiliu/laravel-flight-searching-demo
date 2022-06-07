@@ -11,22 +11,22 @@ use Exception;
 class AmadeusController extends Controller
 {
     protected Amadeus $amadeus;
-    private ?string $token = null;
+    private ?string $bearerToken = null;
     private ?int $expiresAt = null;
 
     /**
      * @throws Exception
      */
-    public function __construct(Amadeus $amadeus)
+    public function __construct()
     {
-        $this->amadeus = $amadeus;
-        $this->amadeus->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
+        $this->amadeus = app(Amadeus::class);
+        $this->amadeus->client->setSslCertificate(__DIR__ . '/../../../../certificate/cacert-2022-03-18.pem');
 
-        $this->amadeus->getAccessToken()->setAccessToken(cache('token'));
-        $this->amadeus->getAccessToken()->setExpiresAt(cache('expires_at'));
+        $this->amadeus->client->getAccessToken()->setBearerToken(cache('bearer_token'));
+        $this->amadeus->client->getAccessToken()->setExpiresAt(cache('expires_at'));
 
-        $this->token = $this->amadeus->getAccessToken()->getBearerToken();
-        $this->expiresAt = $this->amadeus->getAccessToken()->getExpiresAt();
+        $this->bearerToken = $this->amadeus->client->getAccessToken()->getBearerToken();
+        $this->expiresAt = $this->amadeus->client->getAccessToken()->getExpiresAt();
 
         $this->cacheToken();
     }
@@ -36,7 +36,7 @@ class AmadeusController extends Controller
      */
     private function cacheToken()
     {
-        cache(['token' => $this->token]);
+        cache(['bearer_token' => $this->bearerToken]);
         cache(['expires_at' => $this->expiresAt]);
     }
 }
