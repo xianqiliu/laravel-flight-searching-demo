@@ -7,13 +7,13 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
+        "amadeus4dev/amadeus-php": "0.1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4",
-        "xianqiliu/amadeus-php": "dev-master"
+        "laravel/ui": "^3.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
