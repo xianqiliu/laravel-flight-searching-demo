@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $this->app->singleton(Amadeus::class, function($app) {
-            return Amadeus::builder(env('AMADEUS_CLIENT_ID'),env('AMADEUS_CLIENT_SECRET'))->build();
+            return Amadeus::builder()->build();
         });
     }
 
