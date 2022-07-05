@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "amadeus4dev/amadeus-php": "0.1.0",
+        "xliu/amadeus-php-rd": "dev-master",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
