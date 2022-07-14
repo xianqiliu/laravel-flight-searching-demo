@@ -5469,12 +5469,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xianqiliu/amadeus-php-rd.git",
-                "reference": "752ddd972cec75e89a1a59a31a6bfc92be73c22b"
+                "reference": "daacb1c7219cbbfb5a5e2bdb38aefec35b1e3bb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xianqiliu/amadeus-php-rd/zipball/752ddd972cec75e89a1a59a31a6bfc92be73c22b",
-                "reference": "752ddd972cec75e89a1a59a31a6bfc92be73c22b",
+                "url": "https://api.github.com/repos/xianqiliu/amadeus-php-rd/zipball/daacb1c7219cbbfb5a5e2bdb38aefec35b1e3bb9",
+                "reference": "daacb1c7219cbbfb5a5e2bdb38aefec35b1e3bb9",
                 "shasum": ""
             },
             "require": {
@@ -5520,7 +5520,7 @@
                 "issues": "https://github.com/xianqiliu/amadeus-php-rd/issues",
                 "source": "https://github.com/xianqiliu/amadeus-php-rd/tree/master"
             },
-            "time": "2022-07-13T14:50:24+00:00"
+            "time": "2022-07-14T09:44:54+00:00"
         }
     ],
     "packages-dev": [
